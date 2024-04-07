@@ -9,23 +9,25 @@ import com.sun.org.apache.xpath.internal.operations.Bool;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Random;
 
 public class Player {
     private Direction currentDirection;
     Sprite head, body, curvedBody, tail;
+    Apple apple;
     ArrayList<Vector2> snake;
     Boolean gameOver;
     private final int tileSize = 40;
     public enum Direction {
         UP, RIGHT, DOWN, LEFT
     }
-    public Player() {
+    public Player(Apple apple) {
         snake = new ArrayList<>();
-
         head = Snakey.get().assetHandler.head_right;
         body = Snakey.get().assetHandler.body_vertical;
         curvedBody = Snakey.get().assetHandler.body_topleft;
         tail = Snakey.get().assetHandler.tail_left;
+        this.apple = apple;
 
         setCurrentDirection(Direction.RIGHT);
         snake.add(new Vector2(tileSize * 0f,  Gdx.graphics.getHeight() / 2f));
@@ -88,10 +90,8 @@ public class Player {
             if (prevPart.x < tailPart.x) tailRotation = 180; // correct
             batch.draw(tail, snake.get(snake.size() - 1).x, snake.get(snake.size() - 1).y, tileSize / 2f, tileSize / 2f, tileSize, tileSize, 1f, 1f, tailRotation);
         }
-        dectectCollision();
-        if (gameOver) {
-            System.out.println("Snake is dead");
-        }
+        appleCollision();
+        System.out.println(snake);
     }
     public void moveSnake(float xAmount, float yAmount) {
         snake.remove(snake.size() - 1); // remove tail
@@ -113,15 +113,19 @@ public class Player {
                 break;
         }
     }
-    public boolean dectectCollision() {
-        Vector2 snakeHead = snake.get(0);
-        int getSw = Gdx.graphics.getWidth();
-        int getSh = Gdx.graphics.getHeight();
-        if (snakeHead.x > getSw) gameOver = true;
-        if (snakeHead.y > getSh) gameOver = true;
-        return gameOver;
+    public void appleCollision() {
+        Vector2 headCoord = snake.get(0);
+        float getX = apple.appleVector.x;
+        float getY = apple.appleVector.y;
+        if (headCoord.x == getX && headCoord.y == getY) {
+            addSegment();
+            apple.randomizeCoords();
+        }
     }
-
+    public void addSegment() {
+        Vector2 prevcoords = new Vector2(snake.get(snake.size() - 2).x, snake.get(snake.size() - 2).y);
+        snake.add(new Vector2(prevcoords.x, prevcoords.y));
+    }
     public Direction getCurrentDirection() {
         return currentDirection;
     }

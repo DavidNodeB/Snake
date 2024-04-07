@@ -22,8 +22,8 @@ public class Snakey extends Game {
 		assetHandler.LoadAssets();
 		batch = new SpriteBatch();
 		map = new Map();
-		player = new Player();
 		apple = new Apple();
+		player = new Player(apple);
 		Gdx.graphics.setWindowedMode(800, 800);
 		setScreen(new MainScreen(map, player, apple));
 	}
