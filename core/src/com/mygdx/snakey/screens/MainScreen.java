@@ -5,9 +5,11 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.snakey.*;
+import com.mygdx.snakey.config.SnakeyConfig;
 import com.mygdx.snakey.objects.Apple;
 import com.mygdx.snakey.objects.Player;
 
@@ -19,9 +21,13 @@ public class MainScreen implements Screen {
 
     Apple apple;
 
+    GameState state;
+
     OrthographicCamera camera;
 
     ScreenViewport viewport;
+
+    SpriteBatch batch;
 
     public Stage stage;
 
@@ -30,6 +36,7 @@ public class MainScreen implements Screen {
     public static float height;
 
     float movementTimer;
+    public static float speed = 0.1f;
 
     public MainScreen(Map map, Player player, Apple apple) {
 
@@ -54,6 +61,10 @@ public class MainScreen implements Screen {
         stage.setViewport(viewport);
 
         camera.update();
+
+        batch = Snakey.get().batch;
+
+        state = GameState.START;
     }
 
     @Override
@@ -64,27 +75,36 @@ public class MainScreen implements Screen {
     @Override
     public void render(float delta) {
         update(delta);
+
         Gdx.gl.glClearColor(0, 0, 0, 1);
+
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
         Gdx.graphics.getDeltaTime();
-        Snakey.get().batch.setProjectionMatrix(camera.combined);
-        Snakey.get().batch.begin();
-        map.render(Snakey.get().batch);
-        player.render(Snakey.get().batch);
-        apple.render(Snakey.get().batch);
-        Snakey.get().batch.end();
+
+        batch.setProjectionMatrix(camera.combined);
+
+        batch.begin();
+
+        map.render(batch);
+
+        player.render(batch);
+
+        apple.render(batch);
+
+        gameOver();
+
+        batch.end();
     }
 
     private void update(float delta) {
         handleInput();
         movementTimer += delta;
-        if (movementTimer >= 0.1f) {
+        if (movementTimer >= speed) {
             player.movePlayer();
             movementTimer = 0f;
         }
     }
-
-
     @Override
     public void resize(int width, int height) {
         camera.viewportWidth = width;
@@ -108,7 +128,11 @@ public class MainScreen implements Screen {
             player.setCurrentDirection(Player.Direction.LEFT);
         }
     }
-
+    public void gameOver() {
+        if (player.getPlayerState() == GameState.GAME_OVER) {
+            player.resetSnake();
+        }
+    }
     @Override
     public void pause() {
 

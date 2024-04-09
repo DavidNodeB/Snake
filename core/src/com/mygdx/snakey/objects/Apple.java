@@ -8,9 +8,9 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.snakey.Snakey;
+import com.mygdx.snakey.config.SnakeyConfig;
 
 public class Apple {
-    private final int tileSize = 40;
     public Vector2 appleVector;
     public Sprite appleSprite;
     public int xcoord, ycoord;
@@ -22,10 +22,10 @@ public class Apple {
 
     public void randomizeCoords() {
         Random random = new Random();
-        xcoord = random.nextInt(Gdx.graphics.getWidth() / tileSize);
-        ycoord = random.nextInt(Gdx.graphics.getHeight() / tileSize);
-        appleVector.x = xcoord * tileSize;
-        appleVector.y = ycoord * tileSize;
+        xcoord = random.nextInt(Gdx.graphics.getWidth() / SnakeyConfig.TILESIZE);
+        ycoord = random.nextInt(Gdx.graphics.getHeight() / SnakeyConfig.TILESIZE);
+        appleVector.x = xcoord * SnakeyConfig.TILESIZE;
+        appleVector.y = ycoord * SnakeyConfig.TILESIZE;
     }
 
 

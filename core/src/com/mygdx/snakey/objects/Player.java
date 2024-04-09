@@ -1,10 +1,14 @@
 package com.mygdx.snakey.objects;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.snakey.GameState;
 import com.mygdx.snakey.Snakey;
+import com.mygdx.snakey.config.SnakeyConfig;
+import com.mygdx.snakey.screens.MainScreen;
 import com.sun.org.apache.xpath.internal.operations.Bool;
 
 import java.util.ArrayList;
@@ -15,9 +19,9 @@ public class Player {
     private Direction currentDirection;
     Sprite head, body, curvedBody, tail;
     Apple apple;
+    GameState state;
     ArrayList<Vector2> snake;
-    Boolean gameOver;
-    private final int tileSize = 40;
+    float speed;
     public enum Direction {
         UP, RIGHT, DOWN, LEFT
     }
@@ -30,19 +34,21 @@ public class Player {
         this.apple = apple;
 
         setCurrentDirection(Direction.RIGHT);
-        snake.add(new Vector2(tileSize * 0f,  Gdx.graphics.getHeight() / 2f));
-        snake.add(new Vector2(tileSize * 1f,  Gdx.graphics.getHeight() / 2f));
-        snake.add(new Vector2(tileSize * 2f,  Gdx.graphics.getHeight() / 2f));
+        snake.add(new Vector2(SnakeyConfig.TILESIZE * 0f,  Gdx.graphics.getHeight() / 2f));
+        snake.add(new Vector2(SnakeyConfig.TILESIZE * 1f,  Gdx.graphics.getHeight() / 2f));
+        snake.add(new Vector2(SnakeyConfig.TILESIZE * 2f,  Gdx.graphics.getHeight() / 2f));
         Collections.reverse(snake);
-        gameOver = false;
     }
 
     public void render(SpriteBatch batch) {
         // head
+        Vector2 headVector = new Vector2(snake.get(0).x, snake.get(0).y);
+        int getSw = Gdx.graphics.getWidth();
+        int getSh = Gdx.graphics.getHeight();
         float rotateHead = 0;
         if (currentDirection == Direction.LEFT) rotateHead = 180;
         if (!(currentDirection == Direction.LEFT || currentDirection == Direction.RIGHT)) rotateHead = currentDirection.ordinal() * 90f + 90f;
-        batch.draw(head, snake.get(0).x, snake.get(0).y, tileSize / 2f, tileSize / 2f, tileSize, tileSize, 1f, 1f, rotateHead);
+        batch.draw(head, snake.get(0).x, snake.get(0).y, SnakeyConfig.TILESIZE / 2f, SnakeyConfig.TILESIZE / 2f, SnakeyConfig.TILESIZE, SnakeyConfig.TILESIZE, 1f, 1f, rotateHead);
         // body
         for (int i = 1; i < snake.size() - 1; i++) {
             Vector2 prev = snake.get(i - 1);
@@ -75,7 +81,7 @@ public class Player {
                     if (next.x < cur.x) rotation = 90; // correct
                 }
             }
-            batch.draw(sprite, snake.get(i).x, snake.get(i).y, tileSize / 2f, tileSize / 2f, tileSize, tileSize, 1f, 1f, rotation);
+            batch.draw(sprite, snake.get(i).x, snake.get(i).y, SnakeyConfig.TILESIZE / 2f, SnakeyConfig.TILESIZE / 2f, SnakeyConfig.TILESIZE, SnakeyConfig.TILESIZE, 1f, 1f, rotation);
         }
         // tail part
         float tailRotation = 0;
@@ -84,14 +90,18 @@ public class Player {
         if (prevPart.x == tailPart.x) {
             if (prevPart.y > tailPart.y) tailRotation = 90; // correct
             if (prevPart.y < tailPart.y) tailRotation = 270; // correct
-            batch.draw(tail, snake.get(snake.size() - 1).x, snake.get(snake.size() - 1).y, tileSize / 2f, tileSize / 2f, tileSize, tileSize, 1f, 1f, tailRotation);
+            batch.draw(tail, snake.get(snake.size() - 1).x, snake.get(snake.size() - 1).y, SnakeyConfig.TILESIZE / 2f, SnakeyConfig.TILESIZE / 2f, SnakeyConfig.TILESIZE, SnakeyConfig.TILESIZE, 1f, 1f, tailRotation);
         } else if (prevPart.y == tailPart.y) {
             if (prevPart.x > tailPart.x) tailRotation = 0; // correct
             if (prevPart.x < tailPart.x) tailRotation = 180; // correct
-            batch.draw(tail, snake.get(snake.size() - 1).x, snake.get(snake.size() - 1).y, tileSize / 2f, tileSize / 2f, tileSize, tileSize, 1f, 1f, tailRotation);
+            batch.draw(tail, snake.get(snake.size() - 1).x, snake.get(snake.size() - 1).y, SnakeyConfig.TILESIZE / 2f, SnakeyConfig.TILESIZE / 2f, SnakeyConfig.TILESIZE, SnakeyConfig.TILESIZE, 1f, 1f, tailRotation);
         }
         appleCollision();
-        System.out.println(snake);
+        if (headVector.y >= getSw || headVector.y < 0 || headVector.x >= getSw || headVector.x < 0) {
+            state = GameState.GAME_OVER;
+        } else {
+            state = GameState.START;
+        }
     }
     public void moveSnake(float xAmount, float yAmount) {
         snake.remove(snake.size() - 1); // remove tail
@@ -100,16 +110,16 @@ public class Player {
     public void movePlayer() {
         switch (currentDirection) {
             case UP:
-                moveSnake(0f, tileSize);
+                moveSnake(0f, SnakeyConfig.TILESIZE);
                 break;
             case DOWN:
-                moveSnake(0f, -tileSize);
+                moveSnake(0f, -SnakeyConfig.TILESIZE);
                 break;
             case LEFT:
-                moveSnake(-tileSize, 0f);
+                moveSnake(-SnakeyConfig.TILESIZE, 0f);
                 break;
             case RIGHT:
-                moveSnake(tileSize, 0f);
+                moveSnake(SnakeyConfig.TILESIZE, 0f);
                 break;
         }
     }
@@ -123,14 +133,45 @@ public class Player {
         }
     }
     public void addSegment() {
-        Vector2 prevcoords = new Vector2(snake.get(snake.size() - 2).x, snake.get(snake.size() - 2).y);
-        snake.add(new Vector2(prevcoords.x, prevcoords.y));
+        Vector2 headCoordinates = snake.get(0);
+        Vector2 newSegment;
+        float segX = 0;
+        float segY = 0;
+        switch (currentDirection) {
+            case UP:
+                segX = headCoordinates.x - SnakeyConfig.TILESIZE;
+                break;
+            case DOWN:
+                segX = headCoordinates.x + SnakeyConfig.TILESIZE;
+                break;
+            case LEFT:
+                segY = headCoordinates.y - SnakeyConfig.TILESIZE;
+                break;
+            case RIGHT:
+                segY = headCoordinates.y + SnakeyConfig.TILESIZE;
+                break;
+        }
+        newSegment = new Vector2(segX, segY);
+        snake.add(newSegment);
     }
     public Direction getCurrentDirection() {
         return currentDirection;
     }
-
     public void setCurrentDirection(Direction currentDirection) {
         this.currentDirection = currentDirection;
+    }
+    public GameState getPlayerState() {
+        return state;
+    }
+    public void resetSnake() {
+        if (state == GameState.GAME_OVER) {
+            snake.clear();
+            snake.add(new Vector2(SnakeyConfig.TILESIZE * 0f,  Gdx.graphics.getHeight() / 2f));
+            snake.add(new Vector2(SnakeyConfig.TILESIZE * 1f,  Gdx.graphics.getHeight() / 2f));
+            snake.add(new Vector2(SnakeyConfig.TILESIZE * 2f,  Gdx.graphics.getHeight() / 2f));
+            apple.randomizeCoords();
+            currentDirection = Direction.RIGHT;
+            Collections.reverse(snake);
+        }
     }
 }

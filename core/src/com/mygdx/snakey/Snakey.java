@@ -3,6 +3,7 @@ package com.mygdx.snakey;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.mygdx.snakey.config.SnakeyConfig;
 import com.mygdx.snakey.objects.Apple;
 import com.mygdx.snakey.objects.Player;
 import com.mygdx.snakey.screens.MainScreen;
@@ -13,7 +14,6 @@ public class Snakey extends Game {
 	public SpriteBatch batch;
 	Map map;
 	Player player;
-
 	Apple apple;
 	public AssetLoader assetHandler = new AssetLoader();
 
@@ -24,7 +24,7 @@ public class Snakey extends Game {
 		map = new Map();
 		apple = new Apple();
 		player = new Player(apple);
-		Gdx.graphics.setWindowedMode(800, 800);
+		Gdx.graphics.setWindowedMode(SnakeyConfig.WINDOW_SIZE, SnakeyConfig.WINDOW_SIZE);
 		setScreen(new MainScreen(map, player, apple));
 	}
 	@Override
