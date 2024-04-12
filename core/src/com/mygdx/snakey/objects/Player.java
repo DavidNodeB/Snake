@@ -42,9 +42,6 @@ public class Player {
 
     public void render(SpriteBatch batch) {
         // head
-        Vector2 headVector = new Vector2(snake.get(0).x, snake.get(0).y);
-        int getSw = Gdx.graphics.getWidth();
-        int getSh = Gdx.graphics.getHeight();
         float rotateHead = 0;
         if (currentDirection == Direction.LEFT) rotateHead = 180;
         if (!(currentDirection == Direction.LEFT || currentDirection == Direction.RIGHT)) rotateHead = currentDirection.ordinal() * 90f + 90f;
@@ -96,16 +93,31 @@ public class Player {
             if (prevPart.x < tailPart.x) tailRotation = 180; // correct
             batch.draw(tail, snake.get(snake.size() - 1).x, snake.get(snake.size() - 1).y, SnakeyConfig.TILESIZE / 2f, SnakeyConfig.TILESIZE / 2f, SnakeyConfig.TILESIZE, SnakeyConfig.TILESIZE, 1f, 1f, tailRotation);
         }
-        appleCollision();
-        if (headVector.y >= getSw || headVector.y < 0 || headVector.x >= getSw || headVector.x < 0) {
+    }
+    public void moveSnake(float xAmount, float yAmount) {
+        // add head
+        snake.add(0, new Vector2(snake.get(0).x + xAmount, snake.get(0).y + yAmount));
+        Vector2 headCoord = snake.get(0);
+
+        // set game state when head collides with window
+        if (headCoord.y >= Gdx.graphics.getWidth() || headCoord.y < 0 || headCoord.x >= Gdx.graphics.getHeight() || headCoord.x < 0) {
             state = GameState.GAME_OVER;
         } else {
             state = GameState.START;
         }
-    }
-    public void moveSnake(float xAmount, float yAmount) {
-        snake.remove(snake.size() - 1); // remove tail
-        snake.add(0, new Vector2(snake.get(0).x + xAmount, snake.get(0).y + yAmount));
+        // check if the head collides with apple and if it does exit the method
+        if (headCoord.x == apple.appleVector.x && headCoord.y == apple.appleVector.y) {
+            apple.randomizeCoords();
+            return;
+        }
+        // if it does not remove the tail
+        snake.remove(snake.size() - 1);
+
+
+        /*little summary so what this does is add the head and removes the tail
+        * to give it the effect of moving but if the head collides with an apple
+        * then we exit the method before it can remove the tail, so it just adds one on to the body
+        * */
     }
     public void movePlayer() {
         switch (currentDirection) {
@@ -122,37 +134,6 @@ public class Player {
                 moveSnake(SnakeyConfig.TILESIZE, 0f);
                 break;
         }
-    }
-    public void appleCollision() {
-        Vector2 headCoord = snake.get(0);
-        float getX = apple.appleVector.x;
-        float getY = apple.appleVector.y;
-        if (headCoord.x == getX && headCoord.y == getY) {
-            addSegment();
-            apple.randomizeCoords();
-        }
-    }
-    public void addSegment() {
-        Vector2 headCoordinates = snake.get(0);
-        Vector2 newSegment;
-        float segX = 0;
-        float segY = 0;
-        switch (currentDirection) {
-            case UP:
-                segX = headCoordinates.x - SnakeyConfig.TILESIZE;
-                break;
-            case DOWN:
-                segX = headCoordinates.x + SnakeyConfig.TILESIZE;
-                break;
-            case LEFT:
-                segY = headCoordinates.y - SnakeyConfig.TILESIZE;
-                break;
-            case RIGHT:
-                segY = headCoordinates.y + SnakeyConfig.TILESIZE;
-                break;
-        }
-        newSegment = new Vector2(segX, segY);
-        snake.add(newSegment);
     }
     public Direction getCurrentDirection() {
         return currentDirection;

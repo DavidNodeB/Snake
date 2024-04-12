@@ -112,7 +112,6 @@ public class MainScreen implements Screen {
         camera.position.set(width / 2f, height / 2f, 0);
         viewport.update(width, height);
     }
-
     private void handleInput() {
         Player.Direction curDir = player.getCurrentDirection();
         if (Gdx.input.isKeyPressed(Input.Keys.UP) || Gdx.input.isKeyPressed(Input.Keys.W) && curDir != Player.Direction.DOWN) {
