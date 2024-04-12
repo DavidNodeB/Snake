@@ -112,12 +112,6 @@ public class Player {
         }
         // if it does not remove the tail
         snake.remove(snake.size() - 1);
-
-
-        /*little summary so what this does is add the head and removes the tail
-        * to give it the effect of moving but if the head collides with an apple
-        * then we exit the method before it can remove the tail, so it just adds one on to the body
-        * */
     }
     public void movePlayer() {
         switch (currentDirection) {
