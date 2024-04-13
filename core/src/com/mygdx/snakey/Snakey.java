@@ -23,7 +23,9 @@ public class Snakey extends Game {
 		batch = new SpriteBatch();
 		map = new Map();
 		apple = new Apple();
-		player = new Player(apple);
+		player = new Player();
+		player.setApple(apple);
+		apple.setPlayer(player);
 		Gdx.graphics.setWindowedMode(SnakeyConfig.WINDOW_SIZE, SnakeyConfig.WINDOW_SIZE);
 		setScreen(new MainScreen(map, player, apple));
 	}

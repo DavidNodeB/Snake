@@ -1,5 +1,6 @@
 package com.mygdx.snakey.objects;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 import com.badlogic.gdx.Gdx;
@@ -11,6 +12,7 @@ import com.mygdx.snakey.Snakey;
 import com.mygdx.snakey.config.SnakeyConfig;
 
 public class Apple {
+    Player player;
     public Vector2 appleVector;
     public Sprite appleSprite;
     public int xcoord, ycoord;
@@ -26,9 +28,25 @@ public class Apple {
         ycoord = random.nextInt(Gdx.graphics.getHeight() / SnakeyConfig.TILESIZE);
         appleVector.x = xcoord * SnakeyConfig.TILESIZE;
         appleVector.y = ycoord * SnakeyConfig.TILESIZE;
+        System.out.println("Before loop" + appleVector);
+        checkSpawn();
     }
-
-
+    public void checkSpawn() {
+        if (player != null) {
+            for (int i = 1; i < getPlayer().snake.size(); i++) {
+                if (getPlayer().snake.get(i).x == appleVector.x && getPlayer().snake.get(i).y == appleVector.y) {
+                    randomizeCoords();
+                    break;
+                }
+            }
+        }
+    }
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
+    public Player getPlayer() {
+        return player;
+    }
     public void render(SpriteBatch batch) {
         batch.draw(appleSprite, appleVector.x, appleVector.y);
     }
