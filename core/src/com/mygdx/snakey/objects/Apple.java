@@ -28,7 +28,6 @@ public class Apple {
         ycoord = random.nextInt(Gdx.graphics.getHeight() / SnakeyConfig.TILESIZE);
         appleVector.x = xcoord * SnakeyConfig.TILESIZE;
         appleVector.y = ycoord * SnakeyConfig.TILESIZE;
-        System.out.println("Before loop" + appleVector);
         checkSpawn();
     }
     public void checkSpawn() {

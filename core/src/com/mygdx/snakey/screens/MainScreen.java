@@ -9,7 +9,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.snakey.*;
-import com.mygdx.snakey.config.SnakeyConfig;
 import com.mygdx.snakey.objects.Apple;
 import com.mygdx.snakey.objects.Player;
 
@@ -36,7 +35,6 @@ public class MainScreen implements Screen {
     public static float height;
 
     float movementTimer;
-    public static float speed = 0.1f;
 
     public MainScreen(Map map, Player player, Apple apple) {
 
@@ -100,7 +98,7 @@ public class MainScreen implements Screen {
     private void update(float delta) {
         handleInput();
         movementTimer += delta;
-        if (movementTimer >= speed) {
+        if (movementTimer >= player.getSpeed()) {
             player.movePlayer();
             movementTimer = 0f;
         }

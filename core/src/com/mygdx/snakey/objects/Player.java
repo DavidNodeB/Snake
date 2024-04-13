@@ -17,7 +17,7 @@ public class Player {
     Apple apple;
     GameState state;
     public ArrayList<Vector2> snake;
-    float speed;
+    public float speed;
     public enum Direction {
         UP, RIGHT, DOWN, LEFT
     }
@@ -33,6 +33,7 @@ public class Player {
         snake.add(new Vector2(SnakeyConfig.TILESIZE * 1f,  Gdx.graphics.getHeight() / 2f));
         snake.add(new Vector2(SnakeyConfig.TILESIZE * 2f,  Gdx.graphics.getHeight() / 2f));
         Collections.reverse(snake);
+        setSpeed(0.1f);
     }
 
     public void render(SpriteBatch batch) {
@@ -109,6 +110,7 @@ public class Player {
         // check if the head collides with apple and if it does exit the method
         if (headCoord.x == apple.appleVector.x && headCoord.y == apple.appleVector.y) {
             getApple().randomizeCoords();
+            speed -= 0.001f;
             return;
         }
         // if it does not remove the tail
@@ -129,6 +131,12 @@ public class Player {
                 moveSnake(SnakeyConfig.TILESIZE, 0f);
                 break;
         }
+    }
+    public void setSpeed(float speed) {
+        this.speed = speed;
+    }
+    public float getSpeed() {
+        return speed;
     }
     public Direction getCurrentDirection() {
         return currentDirection;
@@ -155,6 +163,7 @@ public class Player {
                 getApple().randomizeCoords();
                 currentDirection = Direction.RIGHT;
                 Collections.reverse(snake);
+                speed = 0.1f;
             }
         }
     }
