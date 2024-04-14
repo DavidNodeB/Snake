@@ -1,0 +1,47 @@
+snakesheet.png
+size: 240, 40
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+apple
+  rotate: false
+  xy: 0, 0
+  size: 40, 40
+  orig: 40, 40
+  offset: 0, 0
+  index: -1
+body_topleft
+  rotate: false
+  xy: 40, 0
+  size: 40, 40
+  orig: 40, 40
+  offset: 0, 0
+  index: -1
+body_vertical
+  rotate: false
+  xy: 80, 0
+  size: 40, 40
+  orig: 40, 40
+  offset: 0, 0
+  index: -1
+head_right
+  rotate: false
+  xy: 120, 0
+  size: 40, 40
+  orig: 40, 40
+  offset: 0, 0
+  index: -1
+speed
+  rotate: false
+  xy: 160, 0
+  size: 40, 40
+  orig: 40, 40
+  offset: 0, 0
+  index: -1
+tail_left
+  rotate: false
+  xy: 200, 0
+  size: 40, 40
+  orig: 40, 40
+  offset: 0, 0
+  index: -1

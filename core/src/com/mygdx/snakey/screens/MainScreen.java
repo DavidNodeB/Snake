@@ -11,6 +11,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.snakey.*;
 import com.mygdx.snakey.objects.Apple;
 import com.mygdx.snakey.objects.Player;
+import com.mygdx.snakey.objects.Speed;
 
 public class MainScreen implements Screen {
 
@@ -19,6 +20,7 @@ public class MainScreen implements Screen {
     Player player;
 
     Apple apple;
+    Speed speed;
 
     GameState state;
 
@@ -36,13 +38,15 @@ public class MainScreen implements Screen {
 
     float movementTimer;
 
-    public MainScreen(Map map, Player player, Apple apple) {
+    public MainScreen(Map map, Player player, Apple apple, Speed speed) {
 
         this.map = map;
 
         this.player = player;
 
         this.apple = apple;
+
+        this.speed = speed;
 
         width = Gdx.graphics.getWidth();
 
@@ -89,6 +93,8 @@ public class MainScreen implements Screen {
         player.render(batch);
 
         apple.render(batch);
+
+        speed.render(batch);
 
         gameOver();
 

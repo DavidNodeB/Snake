@@ -14,6 +14,7 @@ public class AssetLoader {
     public Sprite body_vertical;
     public Sprite head_right;
     public Sprite tail_left;
+    public Sprite speed;
     public Texture loadLight;
     public Texture loadDark;
 
@@ -26,7 +27,7 @@ public class AssetLoader {
         LoadTiles();
         manager.finishLoading();
         getTiles();
-        atlas = new TextureAtlas(Gdx.files.internal("snakegame/snakegame.atlas"));
+        atlas = new TextureAtlas(Gdx.files.internal("snakegame/snakesheet.txt"));
         CreateSprite();
     }
 
@@ -36,6 +37,7 @@ public class AssetLoader {
         body_vertical = atlas.createSprite("body_vertical");
         head_right = atlas.createSprite("head_right");
         tail_left = atlas.createSprite("tail_left");
+        speed = atlas.createSprite("speed");
     }
 
     public void LoadTiles() {
