@@ -16,6 +16,8 @@ public class Apple {
     public Vector2 appleVector;
     public Sprite appleSprite;
     public int xcoord, ycoord;
+    private Random randomChance;
+    private int randomInt;
     public Apple() {
         appleVector = new Vector2();
         appleSprite = Snakey.get().assetHandler.apple;
@@ -29,6 +31,7 @@ public class Apple {
         appleVector.x = xcoord * SnakeyConfig.TILESIZE;
         appleVector.y = ycoord * SnakeyConfig.TILESIZE;
         checkSpawn();
+        calcualteChance();
     }
     public void checkSpawn() {
         if (player != null) {
@@ -39,6 +42,14 @@ public class Apple {
                 }
             }
         }
+    }
+    public int calcualteChance() {
+        randomChance = new Random();
+        int max = 3;
+        int min = 1;
+        randomInt = randomChance.nextInt((max - min) + 1) + min;
+        System.out.println(randomInt);
+        return randomInt;
     }
     public void setPlayer(Player player) {
         this.player = player;

@@ -15,18 +15,23 @@ public class Speed {
     public Vector2 speedVector;
     public Sprite speedSprite;
     public int xcoord, ycoord;
+    private Boolean isVisible;
     public Speed() {
         speedVector = new Vector2();
         speedSprite = Snakey.get().assetHandler.speed;
+        isVisible = false;
         randomizeSpeed();
     }
     public void randomizeSpeed() {
-        Random random = new Random();
-        xcoord = random.nextInt(Gdx.graphics.getWidth() / SnakeyConfig.TILESIZE);
-        ycoord = random.nextInt(Gdx.graphics.getHeight() / SnakeyConfig.TILESIZE);
-        speedVector.x = xcoord * SnakeyConfig.TILESIZE;
-        speedVector.y = ycoord * SnakeyConfig.TILESIZE;
-        checkSpawn();
+            if (apple != null && getApple().calcualteChance() == 3) {
+                Random random = new Random();
+                xcoord = random.nextInt(Gdx.graphics.getWidth() / SnakeyConfig.TILESIZE);
+                ycoord = random.nextInt(Gdx.graphics.getHeight() / SnakeyConfig.TILESIZE);
+                speedVector.x = xcoord * SnakeyConfig.TILESIZE;
+                speedVector.y = ycoord * SnakeyConfig.TILESIZE;
+                checkSpawn();
+                isVisible = true;
+            }
     }
     public void checkSpawn() {
         if (player != null) {
@@ -43,7 +48,9 @@ public class Speed {
         }
     }
     public void render(SpriteBatch batch) {
-        batch.draw(speedSprite, speedVector.x, speedVector.y);
+        if (isVisible != null && isVisible) {
+            batch.draw(speedSprite, speedVector.x, speedVector.y);
+        }
     }
     public void setPlayer(Player player) {
         this.player = player;
