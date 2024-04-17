@@ -9,48 +9,54 @@ import com.mygdx.snakey.config.SnakeyConfig;
 
 import java.util.Random;
 
-public class Speed {
-    Player player;
+public class Powerup {
     Apple apple;
+    Player player;
     public Vector2 speedVector;
     public Sprite speedSprite;
     public int xcoord, ycoord;
     private Boolean isVisible;
-    public Speed() {
+    public Powerup() {
         speedVector = new Vector2();
         speedSprite = Snakey.get().assetHandler.speed;
         isVisible = false;
-        randomizeSpeed();
+        randomizePowerCoords();
+        checkChance();
     }
-    public void randomizeSpeed() {
-            if (apple != null && getApple().calcualteChance() == 3) {
-                Random random = new Random();
-                xcoord = random.nextInt(Gdx.graphics.getWidth() / SnakeyConfig.TILESIZE);
-                ycoord = random.nextInt(Gdx.graphics.getHeight() / SnakeyConfig.TILESIZE);
-                speedVector.x = xcoord * SnakeyConfig.TILESIZE;
-                speedVector.y = ycoord * SnakeyConfig.TILESIZE;
-                checkSpawn();
-                isVisible = true;
-            }
+    public void randomizePowerCoords() {
+        Random random = new Random();
+        xcoord = random.nextInt(Gdx.graphics.getWidth() / SnakeyConfig.TILESIZE);
+        ycoord = random.nextInt(Gdx.graphics.getHeight() / SnakeyConfig.TILESIZE);
+        speedVector.x = xcoord * SnakeyConfig.TILESIZE;
+        speedVector.y = ycoord * SnakeyConfig.TILESIZE;
+        checkSpawn();
     }
     public void checkSpawn() {
         if (player != null) {
             for (int i = 1; i < getPlayer().snake.size(); i++) {
                 if (getPlayer().snake.get(i).x == speedVector.x && getPlayer().snake.get(i).y == speedVector.y) {
-                    randomizeSpeed();
-                    break;
+                    randomizePowerCoords();
                 }
             }
         }  else if (apple != null) {
             if (getApple().appleVector.x == speedVector.x && getApple().appleVector.y == speedVector.y) {
-                randomizeSpeed();
+                randomizePowerCoords();
             }
         }
     }
-    public void render(SpriteBatch batch) {
-        if (isVisible != null && isVisible) {
-            batch.draw(speedSprite, speedVector.x, speedVector.y);
+    public void checkChance() {
+        if (apple != null) {
+            setIsVisible(getApple().calculateChance() == 3);
         }
+    }
+    public void render(SpriteBatch batch) {
+        if (getIsVisible()) batch.draw(speedSprite, speedVector.x, speedVector.y);
+    }
+    public void setApple(Apple apple) {
+        this.apple = apple;
+    }
+    public Apple getApple() {
+        return apple;
     }
     public void setPlayer(Player player) {
         this.player = player;
@@ -58,10 +64,10 @@ public class Speed {
     public Player getPlayer() {
         return player;
     }
-    public void setApple(Apple apple) {
-        this.apple = apple;
+    public void setIsVisible(Boolean isVisible) {
+        this.isVisible = isVisible;
     }
-    public Apple getApple() {
-        return apple;
+    public Boolean getIsVisible() {
+        return isVisible;
     }
 }

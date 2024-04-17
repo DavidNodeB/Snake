@@ -7,17 +7,18 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.snakey.Snakey;
 import com.mygdx.snakey.config.SnakeyConfig;
 
 public class Apple {
     Player player;
+    Powerup powerup;
     public Vector2 appleVector;
     public Sprite appleSprite;
     public int xcoord, ycoord;
-    private Random randomChance;
-    private int randomInt;
+
     public Apple() {
         appleVector = new Vector2();
         appleSprite = Snakey.get().assetHandler.apple;
@@ -31,7 +32,6 @@ public class Apple {
         appleVector.x = xcoord * SnakeyConfig.TILESIZE;
         appleVector.y = ycoord * SnakeyConfig.TILESIZE;
         checkSpawn();
-        calcualteChance();
     }
     public void checkSpawn() {
         if (player != null) {
@@ -43,19 +43,20 @@ public class Apple {
             }
         }
     }
-    public int calcualteChance() {
-        randomChance = new Random();
-        int max = 3;
-        int min = 1;
-        randomInt = randomChance.nextInt((max - min) + 1) + min;
-        System.out.println(randomInt);
-        return randomInt;
+    public int calculateChance() {
+        return MathUtils.random(0, 3);
     }
     public void setPlayer(Player player) {
         this.player = player;
     }
     public Player getPlayer() {
         return player;
+    }
+    public void setPowerup(Powerup powerup) {
+        this.powerup = powerup;
+    }
+    public Powerup getPowerup() {
+        return powerup;
     }
     public void render(SpriteBatch batch) {
         batch.draw(appleSprite, appleVector.x, appleVector.y);

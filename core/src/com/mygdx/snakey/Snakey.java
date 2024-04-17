@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.snakey.config.SnakeyConfig;
 import com.mygdx.snakey.objects.Apple;
 import com.mygdx.snakey.objects.Player;
-import com.mygdx.snakey.objects.Speed;
+import com.mygdx.snakey.objects.Powerup;
 import com.mygdx.snakey.screens.MainScreen;
 
 public class Snakey extends Game {
@@ -16,7 +16,7 @@ public class Snakey extends Game {
 	Map map;
 	Player player;
 	Apple apple;
-	Speed speed;
+	Powerup powerup;
 	public AssetLoader assetHandler = new AssetLoader();
 
 	@Override
@@ -26,14 +26,15 @@ public class Snakey extends Game {
 		map = new Map();
 		apple = new Apple();
 		player = new Player();
-		speed = new Speed();
+		powerup = new Powerup();
 		player.setApple(apple);
+		player.setPowerUp(powerup);
 		apple.setPlayer(player);
-		player.setLightning(speed);
-		speed.setPlayer(player);
-		speed.setApple(apple);
+		apple.setPowerup(powerup);
+		powerup.setApple(apple);
+		powerup.setPlayer(player);
 		Gdx.graphics.setWindowedMode(SnakeyConfig.WINDOW_SIZE, SnakeyConfig.WINDOW_SIZE);
-		setScreen(new MainScreen(map, player, apple, speed));
+		setScreen(new MainScreen(map, player, apple, powerup));
 	}
 	@Override
 	public void dispose () {

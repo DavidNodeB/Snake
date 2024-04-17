@@ -16,7 +16,7 @@ public class Player {
     Sprite head, body, curvedBody, tail;
     Apple apple;
     GameState state;
-    Speed lightning;
+    Powerup powerup;
     public ArrayList<Vector2> snake;
     public float speed;
     public enum Direction {
@@ -111,10 +111,14 @@ public class Player {
         // check if the head collides with apple and if it does exit the method
         if (headCoord.x == apple.appleVector.x && headCoord.y == apple.appleVector.y) {
             getApple().randomizeCoords();
+            if(powerup != null) {
+                getPowerup().checkChance();
+            }
             return;
         }
-        if (headCoord.x == getLightning().speedVector.x && headCoord.y == getLightning().speedVector.y) {
-            getLightning().randomizeSpeed();
+        if (headCoord.x == getPowerup().speedVector.x && headCoord.y == getPowerup().speedVector.y) {
+            getPowerup().randomizePowerCoords();
+            getPowerup().setIsVisible(false);
             speed -= 0.001f;
         }
         // if it does not remove the tail
@@ -157,11 +161,11 @@ public class Player {
     public Apple getApple() {
         return apple;
     }
-    public void setLightning(Speed lightning) {
-        this.lightning = lightning;
+    public void setPowerUp(Powerup powerup) {
+        this.powerup = powerup;
     }
-    public Speed getLightning() {
-        return lightning;
+    public Powerup getPowerup() {
+        return powerup;
     }
     public void resetSnake() {
         if (state == GameState.GAME_OVER) {
@@ -171,7 +175,6 @@ public class Player {
                 snake.add(new Vector2(SnakeyConfig.TILESIZE * 1f,  Gdx.graphics.getHeight() / 2f));
                 snake.add(new Vector2(SnakeyConfig.TILESIZE * 2f,  Gdx.graphics.getHeight() / 2f));
                 getApple().randomizeCoords();
-                getLightning().randomizeSpeed();
                 currentDirection = Direction.RIGHT;
                 Collections.reverse(snake);
                 speed = 0.1f;
