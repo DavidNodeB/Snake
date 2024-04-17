@@ -108,6 +108,14 @@ public class Player {
                 break;
             }
         }
+        if (headCoord.x == getPowerup().speedVector.x && headCoord.y == getPowerup().speedVector.y) {
+            getPowerup().randomizePowerCoords();
+            getPowerup().setIsEaten(true);
+            getPowerup().setIsVisible(false);
+            speed -= 0.001f;
+        } else {
+            getPowerup().setIsEaten(false);
+        }
         // check if the head collides with apple and if it does exit the method
         if (headCoord.x == apple.appleVector.x && headCoord.y == apple.appleVector.y) {
             getApple().randomizeCoords();
@@ -115,11 +123,6 @@ public class Player {
                 getPowerup().checkChance();
             }
             return;
-        }
-        if (headCoord.x == getPowerup().speedVector.x && headCoord.y == getPowerup().speedVector.y) {
-            getPowerup().randomizePowerCoords();
-            getPowerup().setIsVisible(false);
-            speed -= 0.001f;
         }
         // if it does not remove the tail
         snake.remove(snake.size() - 1);

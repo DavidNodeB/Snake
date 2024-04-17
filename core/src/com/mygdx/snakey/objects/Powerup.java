@@ -16,10 +16,12 @@ public class Powerup {
     public Sprite speedSprite;
     public int xcoord, ycoord;
     private Boolean isVisible;
+    private Boolean isEaten;
     public Powerup() {
         speedVector = new Vector2();
         speedSprite = Snakey.get().assetHandler.speed;
         isVisible = false;
+        isEaten = false;
         randomizePowerCoords();
         checkChance();
     }
@@ -31,6 +33,7 @@ public class Powerup {
         speedVector.y = ycoord * SnakeyConfig.TILESIZE;
         checkSpawn();
     }
+    // just checks if the powerup is spawned on either player or apple and if it is then randomize coords again
     public void checkSpawn() {
         if (player != null) {
             for (int i = 1; i < getPlayer().snake.size(); i++) {
@@ -46,11 +49,13 @@ public class Powerup {
     }
     public void checkChance() {
         if (apple != null) {
-            setIsVisible(getApple().calculateChance() == 3);
+            if (getApple().calculateChance() == 3 && !getIsEaten()) {
+                setIsVisible(true);
+            }
         }
     }
     public void render(SpriteBatch batch) {
-        if (getIsVisible()) batch.draw(speedSprite, speedVector.x, speedVector.y);
+        if (getIsVisible() && !getIsEaten()) batch.draw(speedSprite, speedVector.x, speedVector.y);
     }
     public void setApple(Apple apple) {
         this.apple = apple;
@@ -69,5 +74,11 @@ public class Powerup {
     }
     public Boolean getIsVisible() {
         return isVisible;
+    }
+    public void setIsEaten(Boolean isEaten) {
+        this.isEaten = isEaten;
+    }
+    public Boolean getIsEaten() {
+        return isEaten;
     }
 }
