@@ -27,12 +27,12 @@ public class AssetLoader {
         LoadTiles();
         manager.finishLoading();
         getTiles();
-        atlas = new TextureAtlas(Gdx.files.internal("snakegame/snakesheet.txt"));
+        atlas = new TextureAtlas(Gdx.files.internal("snakegame/snakegame.txt"));
         CreateSprite();
     }
 
     public void CreateSprite() {
-        apple = atlas.createSprite("apple");
+        apple = atlas.createSprite("red");
         body_topleft = atlas.createSprite("body_topleft");
         body_vertical = atlas.createSprite("body_vertical");
         head_right = atlas.createSprite("head_right");

@@ -178,6 +178,7 @@ public class Player {
                 snake.add(new Vector2(SnakeyConfig.TILESIZE * 1f,  Gdx.graphics.getHeight() / 2f));
                 snake.add(new Vector2(SnakeyConfig.TILESIZE * 2f,  Gdx.graphics.getHeight() / 2f));
                 getApple().randomizeCoords();
+                getPowerup().setIsVisible(false);
                 currentDirection = Direction.RIGHT;
                 Collections.reverse(snake);
                 speed = 0.1f;

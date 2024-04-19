@@ -1,46 +1,60 @@
-snakesheet.png
-size: 240, 40
+snakegame.png
+size: 120, 120
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
-apple
+body_topleft
   rotate: false
   xy: 0, 0
   size: 40, 40
   orig: 40, 40
   offset: 0, 0
   index: -1
-body_topleft
+body_vertical
   rotate: false
   xy: 40, 0
   size: 40, 40
   orig: 40, 40
   offset: 0, 0
   index: -1
-body_vertical
+golden
   rotate: false
   xy: 80, 0
   size: 40, 40
   orig: 40, 40
   offset: 0, 0
   index: -1
+green
+  rotate: false
+  xy: 0, 40
+  size: 40, 40
+  orig: 40, 40
+  offset: 0, 0
+  index: -1
 head_right
   rotate: false
-  xy: 120, 0
+  xy: 40, 40
+  size: 40, 40
+  orig: 40, 40
+  offset: 0, 0
+  index: -1
+red
+  rotate: false
+  xy: 80, 40
   size: 40, 40
   orig: 40, 40
   offset: 0, 0
   index: -1
 speed
   rotate: false
-  xy: 160, 0
+  xy: 0, 80
   size: 40, 40
   orig: 40, 40
   offset: 0, 0
   index: -1
 tail_left
   rotate: false
-  xy: 200, 0
+  xy: 40, 80
   size: 40, 40
   orig: 40, 40
   offset: 0, 0
