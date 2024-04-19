@@ -21,10 +21,9 @@ public class Apple {
 
     public Apple() {
         appleVector = new Vector2();
-        appleSprite = Snakey.get().assetHandler.apple;
+        appleSprite = Snakey.get().assetHandler.redapple;
         randomizeCoords();
     }
-
     public void randomizeCoords() {
         Random random = new Random();
         xcoord = random.nextInt(Gdx.graphics.getWidth() / SnakeyConfig.TILESIZE);

@@ -9,7 +9,9 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 public class AssetLoader {
     public AssetManager manager;
     public TextureAtlas atlas;
-    public Sprite apple;
+    public Sprite redapple;
+    public Sprite goldenapple;
+    public Sprite greenapple;
     public Sprite body_topleft;
     public Sprite body_vertical;
     public Sprite head_right;
@@ -32,7 +34,7 @@ public class AssetLoader {
     }
 
     public void CreateSprite() {
-        apple = atlas.createSprite("red");
+        redapple = atlas.createSprite("red");
         body_topleft = atlas.createSprite("body_topleft");
         body_vertical = atlas.createSprite("body_vertical");
         head_right = atlas.createSprite("head_right");
@@ -43,7 +45,6 @@ public class AssetLoader {
     public void LoadTiles() {
         manager.load("tiles/light.png", Texture.class);
         manager.load("tiles/dark.png", Texture.class);
-
     }
 
     public void getTiles() {
