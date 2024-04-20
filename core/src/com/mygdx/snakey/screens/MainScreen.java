@@ -117,17 +117,16 @@ public class MainScreen implements Screen {
         viewport.update(width, height);
     }
     private void handleInput() {
-        Player.Direction curDir = player.getCurrentDirection();
-        if (Gdx.input.isKeyPressed(Input.Keys.UP) || Gdx.input.isKeyPressed(Input.Keys.W) && curDir != Player.Direction.DOWN) {
+        if (Gdx.input.isKeyPressed(Input.Keys.UP) || Gdx.input.isKeyPressed(Input.Keys.W)) {
             player.setCurrentDirection(Player.Direction.UP);
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) || Gdx.input.isKeyPressed(Input.Keys.D) && curDir != Player.Direction.LEFT) {
+        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) || Gdx.input.isKeyPressed(Input.Keys.D)) {
             player.setCurrentDirection(Player.Direction.RIGHT);
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.DOWN) || Gdx.input.isKeyPressed(Input.Keys.S) && curDir != Player.Direction.UP) {
+        if (Gdx.input.isKeyPressed(Input.Keys.DOWN) || Gdx.input.isKeyPressed(Input.Keys.S)) {
             player.setCurrentDirection(Player.Direction.DOWN);
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.LEFT) || Gdx.input.isKeyPressed(Input.Keys.A)  && curDir != Player.Direction.RIGHT) {
+        if (Gdx.input.isKeyPressed(Input.Keys.LEFT) || Gdx.input.isKeyPressed(Input.Keys.A)) {
             player.setCurrentDirection(Player.Direction.LEFT);
         }
     }

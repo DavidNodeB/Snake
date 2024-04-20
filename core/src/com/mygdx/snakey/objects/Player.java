@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.snakey.GameState;
 import com.mygdx.snakey.Snakey;
 import com.mygdx.snakey.config.SnakeyConfig;
+import com.mygdx.snakey.screens.MainScreen;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -153,6 +154,12 @@ public class Player {
         return currentDirection;
     }
     public void setCurrentDirection(Direction currentDirection) {
+        if (
+                (this.currentDirection == Direction.UP && currentDirection == Direction.DOWN) ||
+                (this.currentDirection == Direction.DOWN && currentDirection == Direction.UP) ||
+                (this.currentDirection == Direction.LEFT && currentDirection == Direction.RIGHT) ||
+                (this.currentDirection == Direction.RIGHT && currentDirection == Direction.LEFT)
+        ) return;
         this.currentDirection = currentDirection;
     }
     public GameState getPlayerState() {
